@@ -14,6 +14,9 @@ class Product(TimeStampMixin):
     sku = models.SlugField(max_length=255, unique=True)
     description = models.TextField()
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class ProductImage(TimeStampMixin):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

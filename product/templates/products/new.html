@@ -1,0 +1,8 @@
+{% if Product %}
+        <h1> Say Hello </h1>
+        {% else %}
+        <h1> nothing </h1>
+        {% endif %}
+        {% for p in product.all %}
+        <h1>{{p}}</h1>
+        {% endfor %}

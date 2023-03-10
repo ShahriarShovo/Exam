@@ -4,6 +4,9 @@
 
 {% block content %}
 
+
+
+
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Products</h1>
     </div>
@@ -17,7 +20,10 @@
                 </div>
                 <div class="col-md-2">
                     <select name="variant" id="" class="form-control">
-                        <option selected disabled>--Select A Variant--</option>
+                        {% for v in product_variant %}
+                        <option >{{v.variant_title}}</option>
+                        {% endfor %}
+                        
 
                     </select>
                 </div>
@@ -40,6 +46,11 @@
                 </div>
             </div>
         </form>
+       
+
+       
+
+
 
         <div class="card-body">
             <div class="table-response">
@@ -53,12 +64,13 @@
                         <th width="150px">Action</th>
                     </tr>
                     </thead>
-
+                    
                     <tbody>
+                    {% for p in product %}
                     <tr>
-                        <td>1</td>
-                        <td>T-Shirt <br> Created at : 25-Aug-2020</td>
-                        <td>Quality product in low cost</td>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{p.title}} <br> Created at : {{p.created_at}}</td>
+                        <td>{{p.description}}</td>
                         <td>
                             <dl class="row mb-0" style="height: 80px; overflow: hidden" id="variant">
                                 <dt class="col-sm-3 pb-0">
@@ -66,7 +78,7 @@
                                 </dt>
                                 <dd class="col-sm-9">
                                     <dl class="row mb-0">
-                                        <dd class="col-sm-4 pb-0">Price : 200.0</dd>
+                                        <dd class="col-sm-4 pb-0">Price : {{p.productvariantprice.price}}</dd>
                                         <dd class="col-sm-8 pb-0">InStock : 50.</dd>
                                     </dl>
                                 </dd>
@@ -75,7 +87,7 @@
                                 </dt>
                                 <dd class="col-sm-9">
                                     <dl class="row mb-0">
-                                        <dd class="col-sm-4 pb-0">Price : 200.0</dd>
+                                        <dd class="col-sm-4 pb-0">Price : {{p.productvariantprice.price}}</dd>
                                         <dd class="col-sm-8 pb-0">InStock : 50.</dd>
                                     </dl>
                                 </dd>
@@ -107,6 +119,7 @@
                             </div>
                         </td>
                     </tr>
+                    {% endfor %}
                     </tbody>
 
                 </table>
@@ -117,12 +130,50 @@
         <div class="card-footer">
             <div class="row justify-content-between">
                 <div class="col-md-6">
-                    <p>Showing 1 to 10 out of 100</p>
+                    <p>Showing 1 to {{product.count}} out of {{product_count}} </p>
                 </div>
-                <div class="col-md-2">
+                
+                <div class="col-md-6 float-right" >
 
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                        
+                                {% if page_obj.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                        {% else %}
+                          <a class="page-link"><</a>
+                        {% endif %}
+                        
+                        {% for i in page_obj.paginator.page_range %}
+                          {% if page_obj.number == i %}
+                          <li class="page-item"><a class="page-link" href="#">{{ i }} </a></li>
+                          {% else %}
+                          <li class="page-item"> <a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                          {% endif %}
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                        <li class="page-item"> <a class="page-link" href="?page={{ page_obj.next_page_number }}">></a></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link">Next</a></li>
+                        {% endif %}
+                                    </ul>
+                                </nav>
+                    
                 </div>
             </div>
         </div>
+
+       
+
+       
+   
+        
+
+
     </div>
+
+    
+
+ 
 {% endblock %}
